@@ -21,13 +21,13 @@
     justify-content: space-between;
     padding: 10px;
     height: 100%;
-    flex: 0 0 65%;
+    flex: 0 0 70%;
 }
 .right-side{
     padding: 10px;
     color:white;
     height: 100%;
-    flex: 0 0 35%;
+    flex: 0 0 30%;
     background-color: #036262;
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
@@ -48,7 +48,7 @@
 .left p {
     margin: 0;
 }
-h4 {
+h5{
     text-transform: capitalize;
 }
 

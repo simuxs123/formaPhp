@@ -18,7 +18,7 @@
                <div class="left-side ">
                    <h2>DELTA</h2>
                    <div class="info-position">
-                       <h4><?= $_POST['name']?>/<?= $_POST['surname']?></h4>
+                       <h5><?= htmlspecialchars($_POST['name'])?>/<?= htmlspecialchars($_POST['surname'])?></h5>
                        <h6>Flight nr: <?=$_POST['flight']?></h6>
                    </div>
                    <div class="info-position">
@@ -27,12 +27,18 @@
                        <h6>To: <?=$_POST['to']?></h6>
                    </div>
                    <div class="info-position left">
-                       <h6>Price: <?=$_POST['price']?>$</h6>
+                       <h6>Price:
+                           <?php if($_POST['baggage']>20):?>
+                            <?= (float)$_POST['price']+30?>
+                           <?php else:?>
+                            <?= $_POST['price']?>
+                           <?php endif;?>
+                           $</h6>
                        <h6>Baggage: <?=$_POST['baggage']?>Kg</h6>
                    </div>
                    <div class="info-position left">
                        <h6>Note:</h6>
-                       <p><?=$_POST['note']?></p>
+                       <p><?=htmlspecialchars($_POST['note'])?></p>
                    </div>
                </div>
                 <div class="right-side">
@@ -108,8 +114,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 </html>
-<!--<ul>-->
-<!--    --><?php //foreach ($_POST as $item):?>
-<!--        <li>--><?//=htmlspecialchars($item ) ?><!--</li>-->
-<!--    --><?php //endforeach;?>
-<!--</ul>-->
