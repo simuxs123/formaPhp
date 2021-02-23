@@ -10,10 +10,12 @@
 </head>
 <body>
 <div class="container">
+    <?php if(isset($_POST['send']) ){
+            $validation=validate($_POST);
+        };
+    ?>
         <?php
-        if(isset($_POST['send']) && isset($_POST['code'])&& isset($_POST['name'])&& isset($_POST['surname'])
-            && isset($_POST['flight'])&& isset($_POST['from'])&& isset($_POST['to'])&& isset($_POST['price'])
-            && isset($_POST['baggage'])&& isset($_POST['note'])):?>
+        if(isset($_POST['send']) && empty(implode("",$validation)) ):?>
             <div class="ticket-box">
                <div class="left-side ">
                    <h2>DELTA</h2>
@@ -23,17 +25,11 @@
                    </div>
                    <div class="info-position">
                        <h6>ID: <?=$_POST['code']?></h6>
-                       <h6>From: <?=$_POST['from']?></h6>
-                       <h6>To: <?=$_POST['to']?></h6>
+                       <h6>From:<?=check($_POST)?></h6>
+                       <h6>To:<?=check($_POST)?></h6>
                    </div>
                    <div class="info-position left">
-                       <h6>Price:
-                           <?php if($_POST['baggage']>20):?>
-                            <?= (float)$_POST['price']+30?>
-                           <?php else:?>
-                            <?= $_POST['price']?>
-                           <?php endif;?>
-                           $</h6>
+                       <h6>Price: <?= price($_POST) ?> $</h6>
                        <h6>Baggage: <?=$_POST['baggage']?>Kg</h6>
                    </div>
                    <div class="info-position left">
@@ -58,21 +54,22 @@
                     <option value="<?=$flight?>"><?=$flight?></option>
                 <?php endforeach;?>
             </select>
+            <small class="err"><?=$validation['flight']?></small>
         </div>
         <div class="mb-3">
             <label for="code" class="form-label">Personal code</label>
             <input type="text" name="code" class="form-control" id="code" placeholder="2344546567">
-            <small id="codeHelp" class="form-text text-muted">Enter personal code</small>
+            <small class="err"><?=$validation['code']?></small>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" name="name" class="form-control" id="name" placeholder="Jonas">
-            <small id="nameHelp" class="form-text text-muted">Enter name</small>
+            <small class="err"><?=$validation['name']?></small>
         </div>
         <div class="mb-3">
             <label for="surname" class="form-label">Surname</label>
             <input type="text" name="surname" class="form-control" id="surname" placeholder="Jonaitis">
-            <small id="surnameHelp" class="form-text text-muted">Enter surname</small>
+            <small class="err"><?=$validation['surname']?></small>
         </div>
         <div class="mb-3">
             <select class="form-control" name="from">
@@ -93,7 +90,6 @@
         <div class="mb-3">
             <label for="price" class="form-label">Price</label>
             <input type="text" name="price" class="form-control" id="price" placeholder="20">
-            <small id="emailHelp" class="form-text text-muted">Enter price</small>
         </div>
         <div class="mb-3">
             <select class="form-control" name="baggage">
@@ -102,10 +98,12 @@
                     <option value="<?=$weight?>"><?=$weight?></option>
                 <?php endforeach;?>
             </select>
+            <small class="err"><?=$validation['baggage']?></small>
         </div>
         <div class="mb-3">
             <label for="note" class="form-label">Note</label>
             <textarea class="form-control" name="note" id="note" rows="3"></textarea>
+            <small class="err"><?=$validation['note']?></small>
         </div>
         <button type="submit" name="send" class="btn btn-primary">Print</button>
     </form>

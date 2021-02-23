@@ -59,3 +59,9 @@ form {
 ul {
     list-style: none;
 }
+.err{
+    color:red;
+}
+.small{
+    color:red;
+}
