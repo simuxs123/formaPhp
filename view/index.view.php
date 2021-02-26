@@ -1,3 +1,20 @@
+<?php
+    if(isset($_POST['send']) ){
+        $validation=validate();
+    };
+
+    if(isset($_POST['send']) && empty(implode("",$validation)) ) {
+        printData();
+    }
+
+    if(isset($_GET['searchBtn']) ){
+        $messages = showData();
+    } else{
+        $messages = showData();
+    }
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,43 +26,50 @@
     <title>Document</title>
 </head>
 <body>
+
+<?php if (!empty($messages)):?>
 <div class="container">
-    <?php if(isset($_POST['send']) ){
-            $validation=validate($_POST);
-        };
-    ?>
-        <?php
-        if(isset($_POST['send']) && empty(implode("",$validation)) ):?>
-            <div class="ticket-box">
-               <div class="left-side ">
-                   <h2>DELTA</h2>
-                   <div class="info-position">
-                       <h5><?= htmlspecialchars($_POST['name'])?>/<?= htmlspecialchars($_POST['surname'])?></h5>
-                       <h6>Flight nr: <?=$_POST['flight']?></h6>
-                   </div>
-                   <div class="info-position">
-                       <h6>ID: <?=$_POST['code']?></h6>
-                       <h6>From:<?=check($_POST)?></h6>
-                       <h6>To:<?=check($_POST)?></h6>
-                   </div>
-                   <div class="info-position left">
-                       <h6>Price: <?= price($_POST) ?> $</h6>
-                       <h6>Baggage: <?=$_POST['baggage']?>Kg</h6>
-                   </div>
-                   <div class="info-position left">
-                       <h6>Note:</h6>
-                       <p><?=htmlspecialchars($_POST['note'])?></p>
-                   </div>
-               </div>
-                <div class="right-side">
-                    <h2>ECONOMY</h2>
-                    <h5>Gate: E31</h5>
-                    <h5>Seat: 5E</h5>
-                </div>
+    <h1 class="text-center mt-2">Search</h1>
+    <form method="GET">
+        <div class="mb-3 text-center">
+            <input type="text" name="search"  id="search" placeholder="Flight nr. or Personal code">
+            <button type="submit" name="searchBtn" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+<table id="table" class="my-5">
+    <thead>
+    <tr>
+        <th >Flight  nr.</th>
+        <th>Personal code</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Price</th>
+        <th>Baggage</th>
+        <th>Note</th>
+        <th>Reservation</th>
+    </tr>
+    </thead>
 
-            </div>
-        <?php endif;?>
+        <?php foreach ($messages as $key=> $value):?>
+            <tr>
+                <?php foreach ($value as $val):?>
+                    <td><?=$val?></td>
+                <?php endforeach;?>
+                <td>
+                    <form id="form" action="reservation.php" method="GET">
+                        <button class="btn btn-success type="submit" name="btn" value='<?= $key ?>'>Reservation</button>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach;?>
+    <?php endif;?>
+</table>
+<div class="container">
 
+    <h1 class="text-center">Ticket reservation form</h1>
     <form method="post">
         <div class="mb-3">
             <select class="form-control" name="flight">
@@ -78,6 +102,7 @@
                     <option value="<?=$countrie?>"><?=$countrie?></option>
                 <?php endforeach;?>
             </select>
+            <small class="err"><?=$validation['from']?></small>
         </div>
         <div class="mb-3">
             <select class="form-control" name="to">
@@ -86,10 +111,12 @@
                     <option value="<?=$countrie?>"><?=$countrie?></option>
                 <?php endforeach;?>
             </select>
+            <small class="err"><?=$validation['to']?></small>
         </div>
         <div class="mb-3">
             <label for="price" class="form-label">Price</label>
             <input type="text" name="price" class="form-control" id="price" placeholder="20">
+            <small class="err"><?=$validation['price']?></small>
         </div>
         <div class="mb-3">
             <select class="form-control" name="baggage">
@@ -105,7 +132,7 @@
             <textarea class="form-control" name="note" id="note" rows="3"></textarea>
             <small class="err"><?=$validation['note']?></small>
         </div>
-        <button type="submit" name="send" class="btn btn-primary">Print</button>
+        <button type="submit" name="send" class="btn btn-primary">Make reservation</button>
     </form>
 </div>
 

@@ -65,3 +65,24 @@ ul {
 .small{
     color:red;
 }
+#table{
+    border-collapse: collapse;
+    width: 90%;
+    margin: 0 auto;
+    overflow-x:auto;
+}
+
+#table th,#table td {
+    border: 1px solid black;
+    padding:10px 15px;
+    text-align: center;
+}
+#form {
+    width: 100%;
+    margin: 0;
+}
+#search {
+    width: 300px;
+    padding: 5px;
+    vertical-align: middle;
+}
